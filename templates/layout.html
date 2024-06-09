@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ZC Dashboard - {% block client %}{% endblock %}</title>
+    <link href="{{url_for('static', filename='bootstrap/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{url_for('static', filename='css/layout-style.css')}}" rel="stylesheet">
+  </head>
+  <body>
+    <nav class="navbar bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand m-auto text-light fs-1 fw-semibold" href="#">
+                <img src="{{url_for('static', filename='media/logo.png')}}" alt="Bootstrap" width="100">
+                ZC Dashboard
+            </a>
+        </div>
+        <div id="subnav" class="mb-4 w-100 bg-light">
+          <div class="container">
+            <ul class="m-auto">
+              <li><a href="{{url_for('Deanv')}}" class="{% block DEN %}{% endblock %}">Dean</a></li>
+              <li><a href="{{url_for('Teuv')}}" class="{% block TEU %}{% endblock %}">Teaching Effectiveness</a></li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+    <main>
+      {% block main %}{% endblock %}
+    </main>
+    <script src="{{url_for('static', filename='bootstrap/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{url_for('static', filename='amcharts/index.js')}}"></script>
+    <script src="{{url_for('static', filename='amcharts/percent.js')}}"></script>
+    <script src="{{url_for('static', filename='amcharts/xy.js')}}"></script>
+    <script src="{{url_for('static', filename='amcharts/themes/Animated.js')}}"></script>
+    <script src="{{url_for('static', filename='amcharts/radar.js')}}"></script>
+    <script src="https://cdn.amcharts.com/lib/5/fonts/notosans-sc.js"></script>
+    {% block chartjs %}{% endblock %}
+  </body>
+</html>

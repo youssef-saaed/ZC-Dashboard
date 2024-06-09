@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+
+{% block client %}Teaching Effectiveness{% endblock %}
+
+{% block TEU %}active{% endblock %}
+
+{% block main %}
+<div class="container-fluid">
+    <div class="row m-2">
+        <div class="col">
+            <label>Choose school</label>
+            <select class="form-select mt-2" id="SchoolGPASelect">
+                {% for s in school_names %}
+                    {% if loop.index == 1 %}
+                    <option value="{{loop.index}}" selected>{{s[0]}}</option>
+                    {% else %}
+                    <option value="{{loop.index}}">{{s[0]}}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col">
+            <label>Choose semester</label>
+            <select class="form-select mt-2" id="SemesterGPASelect">
+                {% for y in range(2005, 2024) %}
+                    {% for s in range(1, 4) %}
+                        {% if y == 2005 and s == 1 %}
+                            <option value={{y * 10 + s}} selected>Spring 2005</option>
+                        {% elif s == 1 %}
+                            <option value={{y * 10 + s}}>Spring {{y}}</option>
+                        {% elif s == 2 %}
+                            <option value={{y * 10 + s}}>Summer {{y}}</option>
+                        {% else %}
+                            <option value={{y * 10 + s}}>Fall {{y}}</option>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="row m-2">
+        <div class="col shadow-box-hover">
+            <div class="fs-4 text-center">GPA distribution</div>
+            <div class="w-100" style="height: 60vh" id="SchoolSemesterGPAChart"></div>
+        </div>
+        <div class="col shadow-box-hover px-3 pb-3">
+            <div class="fs-4 text-center">Top instructors ratings</div>
+            <div class="row border d-flex flex-column p-2 rounded" id="instructorsContainer" style="height: 60vh; overflow-y: auto; flex-wrap: nowrap"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block chartjs %}
+<script src="{{url_for('static', filename='js/teu-charts.js')}}"></script>
+{% endblock %}

@@ -1,0 +1,125 @@
+{% extends "layout.html" %}
+
+{% block client %}Dean{% endblock %}
+
+{% block DEN %}active{% endblock %}
+
+{% block main %}
+<div class="container-fluid">
+    <div class="row my-3">
+        <div class="col-3 light-card d-flex justify-content-center align-items-center flex-column mx-2">
+            <div class="fs-1" id="applicants-number">{{ applicants }}</div> 
+            <div>Applicants</div>
+        </div>
+        <div class="col dark-card d-flex justify-content-center align-items-center flex-column mx-2">
+            <input type="hidden" value="{{acceptance}}" id="acceptance-rate">
+            <div id="acceptance-rate-chart" class="h-100 w-100 row mt-2"></div>
+            <div class="row text-light mb-3">Acceptance Rate ({{acceptance}}%)</div>
+        </div>
+        <div class="col dark-card d-flex justify-content-center align-items-center flex-column mx-2">
+            <input type="hidden" value="{{enrollment}}" id="enrollment-rate">
+            <div id="enrollment-rate-chart" class="h-100 w-100 row mt-2"></div>
+            <div class="row text-light mb-3">Enrollment Rate ({{enrollment}}%)</div>
+        </div>
+        <div class="col dark-card d-flex justify-content-center align-items-center flex-column mx-2">
+            <input type="hidden" value="{{graduation}}" id="graduation-rate">
+            <div id="graduation-rate-chart" class="h-100 w-100 row mt-2"></div>
+            <div class="row text-light mb-3">Graduation Rate ({{graduation}}%)</div>
+        </div>
+        <div class="col-3 dark-card d-flex justify-content-center align-items-center flex-column mx-2">
+            <div class="row fs-3 text-light">
+                Ranking
+            </div>
+            <div class="row w-100">
+                <div class="col text-center fs-1 text-light">
+                    {{ rank_n }}
+                    {% if diff_n >= 0 %}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="#33ff33" class="bi bi-arrow-up" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5"/>
+                    </svg>
+                    {% else %}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="red" class="bi bi-arrow-down" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1"/>
+                    </svg>
+                    {% endif %}
+                </div>
+                <div class="col text-center fs-1 text-light">
+                    {{ rank_i }}
+                    {% if diff_i >= 0 %}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="#33ff33" class="bi bi-arrow-up" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5"/>
+                    </svg>
+                    {% else %}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="red" class="bi bi-arrow-down" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1"/>
+                    </svg>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row w-100">
+                <div class="col text-center text-light">
+                    National
+                </div>
+                <div class="col text-center text-light">
+                    International
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3 me-2">
+            <div class="row">
+                <div class="light-card d-flex justify-content-center align-items-center flex-column mx-2" style="padding: 5px 40px;">
+                    <input type="hidden" value={{ males }} id="malesC">
+                    <input type="hidden" value={{ females }} id="femalesC">
+                    <div id="maleToFemaleChart" class="w-100" style="height: 120px;"></div> 
+                </div>
+            </div>
+            <div class="row my-3">
+                <div class="light-card d-flex justify-content-center align-items-center flex-column mx-2">
+                    <div class="fs-5">School GPA Distribution</div>
+                    <select class="form-select mt-2" id="SchoolGPASelect">
+                        {% for s in school_names %}
+                            {% if loop.index == 1 %}
+                            <option value="{{loop.index}}" selected>{{s[0]}}</option>
+                            {% else %}
+                            <option value="{{loop.index}}">{{s[0]}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <div class="w-100" style="height: 250px" id="SchoolGPAChart"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col me-2">
+            <div class="row">
+                <div class="col-7 shadow-box-hover px-2">
+                    <div class="text-center fs-5">Revenue and count of researches at each field</div>
+                    <div id="research-chart" class="w-100" style="height: 50vh;"></div>
+                </div>
+                <div class="col px-2">
+                    <div class="row shadow-box-hover px-2">
+                        <div class="fs-5 text-center">University Rank development</div>
+                        <div id="rankDevChart" style="height: 200px; width: 99%"></div>
+                    </div>
+                    <div class="row shadow-box-hover px-2 mt-2">
+                        <div class="fs-5 text-center">Students count at each school</div>
+                        <select class="form-select mt-2" id="SchoolStudentsSelect">
+                            <option value=0 selected>Total</option>
+                            {% for y in range(2005, 2024) %}
+                                <option value={{y}}>{{y}}</option>
+                            {% endfor %}
+                        </select>
+                        <div style="height: 200px; width: 99%" id="SchoolStudentsChart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{{url_for('static', filename='js/dean.js')}}"></script>
+{% endblock %}
+
+{% block chartjs %}
+<script src="{{url_for('static', filename='js/dean-charts.js')}}"></script>
+{% endblock %}
